@@ -28,14 +28,16 @@ jobs:
     - name: Use Node.js ${{ matrix.node-version }}
       uses: appleboy/ssh-action@master
       with:
+        host: ${{ secrets.IP }}
+        username: ${{ secrets.USERNAME }}
+        password: ${{ secrets.PASSWORD }}
         script: |
-          host: ${{ secrets.IP }}
-          username: ${{ secrets.USERNAME }}
-          key: ${{ secrets.SSH_KEY }}
-          password: ${{ secrets.PASSWORD }}
-          script: |
-            cd /node/wilko55.github.io/
-            git reset --hard origin/master
-            git pull origin master
-            pm2 restart andywilko
+          sudo ln -s "$NVM_DIR/versions/node/$(nvm version)/bin/node" "/usr/local/bin/node"
+          sudo ln -s "$NVM_DIR/versions/node/$(nvm version)/bin/npm" "/usr/local/bin/npm"
+          sudo ln -s "$NVM_DIR/versions/node/$(nvm version)/bin/pm2" "/usr/local/bin/pm2"
+          cd /node/wilko55.github.io/
+          git reset --hard origin/master
+          git pull origin master
+          whereis pm2
+          pm2 restart andywilko
 
