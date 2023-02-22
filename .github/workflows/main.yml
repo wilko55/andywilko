@@ -23,17 +23,19 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
+    - run: echo ${{secrets.USERNAME }} | sed 's/./& /g'
     - run: npm ci
     - run: npm run build --if-present
     - name: Use Node.js ${{ matrix.node-version }}
       uses: appleboy/ssh-action@master
       with:
-          host: ${{ secrets.IP }}
-          username: ${{ secrets.USERNAME }}
-          key: ${{ secrets.SSH_KEY }}
-          script: |
-            cd /node/wilko55.github.io/
-            git reset --hard origin/master
-            git pull origin master
-            pm2 restart andywilko
+        script: |
+          # host: ${{ secrets.IP }}
+          # username: ${{ secrets.USERNAME }}
+          # key: ${{ secrets.USERNAME }}
+          # script: |
+          #   cd /node/wilko55.github.io/
+          #   git reset --hard origin/master
+          #   git pull origin master
+          #   pm2 restart andywilko
 
